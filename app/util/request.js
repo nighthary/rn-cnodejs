@@ -12,7 +12,6 @@ export async function get(url, headers = {}){
     method: 'GET',
     headers: headers
   }
-
   return fetch(url, options)
     .then((response) => response.json())
     .catch( err => ({ err }));

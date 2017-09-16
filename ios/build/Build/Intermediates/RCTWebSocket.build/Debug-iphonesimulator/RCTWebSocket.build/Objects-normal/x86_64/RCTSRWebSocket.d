@@ -1,7 +1,7 @@
 dependencies: \
-  /Users/goodsogood/libs/testRn/node_modules/react-native/Libraries/WebSocket/RCTSRWebSocket.m \
-  /Users/goodsogood/libs/testRn/node_modules/react-native/Libraries/WebSocket/RCTSRWebSocket.h \
-  /Users/goodsogood/libs/testRn/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAssert.h \
-  /Users/goodsogood/libs/testRn/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTDefines.h \
-  /Users/goodsogood/libs/testRn/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTLog.h \
-  /Users/goodsogood/libs/testRn/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTUtils.h
+  /Users/lijianbo/libs/rn-cnodejs/node_modules/react-native/Libraries/WebSocket/RCTSRWebSocket.m \
+  /Users/lijianbo/libs/rn-cnodejs/node_modules/react-native/Libraries/WebSocket/RCTSRWebSocket.h \
+  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAssert.h \
+  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTDefines.h \
+  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTLog.h \
+  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTUtils.h

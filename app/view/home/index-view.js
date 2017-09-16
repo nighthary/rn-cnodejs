@@ -1,22 +1,22 @@
 import React, { Component } from 'react'
-
-import { getList } from '../../service/apis'
-
 import {
   View,
   Text,
   Image,
-  StyleSheet,
   FlatList,
   TouchableOpacity,
-  Dimensions,
   ActivityIndicator,
   ScrollView
 } from 'react-native'
 
-const {width, height} = Dimensions.get('window')
+import { getHomeList } from '../../service/apis';
+import {formatDate} from '../../util/tools';
 
-let base64Icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAQAAACSR7JhAAADtUlEQVR4Ac3YA2Bj6QLH0XPT1Fzbtm29tW3btm3bfLZtv7e2ObZnms7d8Uw098tuetPzrxv8wiISrtVudrG2JXQZ4VOv+qUfmqCGGl1mqLhoA52oZlb0mrjsnhKpgeUNEs91Z0pd1kvihA3ULGVHiQO2narKSHKkEMulm9VgUyE60s1aWoMQUbpZOWE+kaqs4eLEjdIlZTcFZB0ndc1+lhB1lZrIuk5P2aib1NBpZaL+JaOGIt0ls47SKzLC7CqrlGF6RZ09HGoNy1lYl2aRSWL5GuzqWU1KafRdoRp0iOQEiDzgZPnG6DbldcomadViflnl/cL93tOoVbsOLVM2jylvdWjXolWX1hmfZbGR/wjypDjFLSZIRov09BgYmtUqPQPlQrPapecLgTIy0jMgPKtTeob2zWtrGH3xvjUkPCtNg/tm1rjwrMa+mdUkPd3hWbH0jArPGiU9ufCsNNWFZ40wpwn+62/66R2RUtoso1OB34tnLOcy7YB1fUdc9e0q3yru8PGM773vXsuZ5YIZX+5xmHwHGVvlrGPN6ZSiP1smOsMMde40wKv2VmwPPVXNut4sVpUreZiLBHi0qln/VQeI/LTMYXpsJtFiclUN+5HVZazim+Ky+7sAvxWnvjXrJFneVtLWLyPJu9K3cXLWeOlbMTlrIelbMDlrLenrjEQOtIF+fuI9xRp9ZBFp6+b6WT8RrxEpdK64BuvHgDk+vUy+b5hYk6zfyfs051gRoNO1usU12WWRWL73/MMEy9pMi9qIrR4ZpV16Rrvduxazmy1FSvuFXRkqTnE7m2kdb5U8xGjLw/spRr1uTov4uOgQE+0N/DvFrG/Jt7i/FzwxbA9kDanhf2w+t4V97G8lrT7wc08aA2QNUkuTfW/KimT01wdlfK4yEw030VfT0RtZbzjeMprNq8m8tnSTASrTLti64oBNdpmMQm0eEwvfPwRbUBywG5TzjPCsdwk3IeAXjQblLCoXnDVeoAz6SfJNk5TTzytCNZk/POtTSV40NwOFWzw86wNJRpubpXsn60NJFlHeqlYRbslqZm2jnEZ3qcSKgm0kTli3zZVS7y/iivZTweYXJ26Y+RTbV1zh3hYkgyFGSTKPfRVbRqWWVReaxYeSLarYv1Qqsmh1s95S7G+eEWK0f3jYKTbV6bOwepjfhtafsvUsqrQvrGC8YhmnO9cSCk3yuY984F1vesdHYhWJ5FvASlacshUsajFt2mUM9pqzvKGcyNJW0arTKN1GGGzQlH0tXwLDgQTurS8eIQAAAABJRU5ErkJggg==';
+import {baseStyle, styles, tabStyles, listStyles} from './styles';
+
+const tabs = [{key: 'all', value: '全部'}, {key: 'good', value: '精华'}, {key: 'share', value: '分享'}, {key: 'ask', value: '问答'}]
+const tabsObj = { 'top': '置顶', 'ask': '问答', 'good': '精华', 'share': '分享', 'job': '招聘', 'dev': '测试', 'default': '暂无' }
+
 class HomeIndex extends Component {
 
   static navigationOptions = ({navigation}) => {
@@ -53,11 +53,12 @@ class HomeIndex extends Component {
     this.state = {
       lists: [],
       isLoading: false,
-      pageSize: 10,
-      pageNo: 1,
+      limit: 10,
+      page: 1,
       isDataEnd: false,
-      refreshing: false,
+      refreshing: true,
       failed: false,
+      activeTab: 'all'
     }
   }
 
@@ -65,17 +66,16 @@ class HomeIndex extends Component {
     this.getList()
   }
 
-  getList () {
-    let {pageNo, pageSize} = this.state;
+  getList (tab) {
+    let {page, limit, activeTab} = this.state;
     let _isDataEnd = false;
     if(!this.state.isLoading){
       this.setState({isLoading: true})
-      getList(pageNo, pageSize).then((result) => {
-        if (result.code === 0) {
-          const newData = this.state.lists.concat(result.data);
-          if ((newData.length === result.totalCount) || result.data.length < pageSize) {
-            _isDataEnd = true;
-          }
+      getHomeList(page, limit, tab || activeTab).then((result) => {
+        if (result.success) {
+          let _data = result.data;
+          this.convertData(_data);
+          const newData = this.state.lists.concat(_data);
           this.setState({isLoading: false, lists: newData, refreshing: false, isDataEnd: _isDataEnd})
         }
       }).catch(err => {
@@ -84,14 +84,27 @@ class HomeIndex extends Component {
     }
   }
 
+  convertData (data) {
+    data.map((elem, index) => {
+      let obj = data[index];
+      obj.create_at = formatDate(obj.create_at);
+      obj.last_reply_at = formatDate(obj.last_reply_at);
+      obj.tabTxt = tabsObj[data[index].tab];
+      let avatar_url = obj.author.avatar_url;
+      if (avatar_url && !avatar_url.startsWith('https')){
+        obj.author.avatar_url = 'https:' + avatar_url
+      }
+    })
+  }
+
   refresh () {
-    this.setState({pageNo: 1, lists: [],isDataEnd: false, refreshing: false, failed: false})
+    this.setState({page: 1, lists: [],isDataEnd: false, refreshing: false, failed: false})
     this.getList()
   }
 
   loadMore () {
     if(!this.state.isDataEnd){
-      this.setState({pageNo: this.state.pageNo++ })
+      this.setState({page: this.state.page++ })
       this.getList()
     }
   }
@@ -102,22 +115,37 @@ class HomeIndex extends Component {
     }
   }
 
+  switchTab (tab) {
+    this.setState({activeTab: tab, lists: []})
+    this.getList(tab)
+  }
+
   render () {
+    const {activeTab} = this.state;
     if(!this.state.lists){
       return this._renderLoadingView()
     }else{
       return (
         <View style={styles.container}>
+          <View style={tabStyles.tabView}>
+          {
+            tabs.map((item, index) => (
+              <TouchableOpacity key={index} onPress={() => {this.switchTab(item.key)}}>
+                <View style={[tabStyles.item, activeTab === item.key ? tabStyles.itemAvtive : null]} key={index}>
+                  <Text style={[tabStyles.txt, activeTab === item.key ? tabStyles.txtActive : null]}>{item.value}</Text>
+                </View>
+              </TouchableOpacity>
+            ))
+          }
+          </View>
           <FlatList
             refreshing={this.state.refreshing}
-            numColumns={2}
             data={this.state.lists}
             keyExtractor={(item, index) => index}
             renderItem={this._renderListItem}
             onRefresh={this.refresh.bind(this)}
             onEndReached={this.loadMore.bind(this)}
             onEndReachedThreshold={0.1}
-            ListHeaderComponent={this._renderHeader}
             getItemLayout={(data, index) => ({length: 270.5, offset: 270.5 * index, index})}
           />
         </View>
@@ -128,16 +156,33 @@ class HomeIndex extends Component {
   _renderListItem = ({item}) => {
     return (
       <TouchableOpacity
-        onPress={() => { this.navigate('detail') }}
         activeOpacity={0.6}>
-        <View style={styles.item}>
-          <Image
-            defaultSource={{ uri: base64Icon}}
-            source={{uri: item.imgUri1}}
-            style={styles.img}
-            resizeMode="contain"
-          />
-          <Text style={styles.title}>{item.title}</Text>
+        <View style={listStyles.item}>
+          <View style={listStyles.header}>
+            <View style={[listStyles[item.tab], listStyles.tab]}>
+              <Text style={listStyles.headerTxt}>{item.tabTxt}</Text>
+            </View>
+            <Text numberOfLines={1} style={listStyles.title}>{item.title}</Text>
+          </View>
+          <View style={listStyles.content}>
+            <TouchableOpacity>
+              <Image
+                source={{ uri: item.author.avatar_url}}
+                style={listStyles.avatar}
+              />
+            </TouchableOpacity>
+            <View style={listStyles.info}>
+              <Text style={listStyles.name}>{item.author.loginname}</Text>
+              <Text style={listStyles.time}>{item.create_at}</Text>
+            </View>
+            <View style={listStyles.replyInfo}>
+              <View style={listStyles.count}>
+                 <Text style={listStyles.replyCount}>{item.reply_count} / </Text>
+                 <Text style={listStyles.visitCount}>{item.visit_count}</Text>
+              </View>
+              <Text style={listStyles.replyTime}>{item.last_reply_at}</Text>
+            </View>
+          </View>
         </View>
       </TouchableOpacity>
     )
@@ -152,64 +197,7 @@ class HomeIndex extends Component {
       />
     </View>
   )
-
-  _renderHeader = () => (
-    <View style={styles.header}>
-      <Image
-        resizeMode='cover'
-        source={{uri: `https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3454737647,4030834292&fm=27&gp=0.jpg`}}
-        style={styles.headerImg}
-      />
-    </View>
-  )
 }
 
-const baseStyle = StyleSheet.create({
-  center: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 200
-  }
-})
-
-
-const styles = StyleSheet.create({
-  icon: {
-    width: 25,
-  },
-  container: {
-    flex: 1,
-  },
-  headerLeft: {
-    height: 44,
-    width: 80,
-    marginLeft: 15
-  },
-
-  headerRight: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  headerImg: {
-    width,
-    height: 150
-  },
-  item: {
-    backgroundColor: '#FFF',
-    marginHorizontal: 2.5,
-    marginVertical: 2.5,
-    paddingVertical: 5,
-    alignItems: 'center',
-  },
-  img: {
-    width: (width / 2),
-    height: 150
-  },
-  title: {
-    marginTop: 10
-  }
-})
 
 export default HomeIndex
