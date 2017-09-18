@@ -1,5 +1,5 @@
 dependencies: \
-  /Users/lijianbo/libs/rn-cnodejs/ios/testRnTests/testRnTests.m \
+  /Users/goodsogood/libs/rn-cnodejs/ios/testRnTests/testRnTests.m \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCTest.framework/Modules/module.modulemap \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCUIRemote.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCUIKeyboardKeys.h \
@@ -35,14 +35,14 @@ dependencies: \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestErrors.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestDefines.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTest.h \
-  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTLog.h \
-  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAssert.h \
-  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTDefines.h \
-  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTUtils.h \
-  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTRootView.h \
-  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridge.h \
-  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeDelegate.h \
-  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTJavaScriptLoader.h \
-  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeModule.h \
-  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTFrameUpdate.h \
-  /Users/lijianbo/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTInvalidating.h
+  /Users/goodsogood/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTLog.h \
+  /Users/goodsogood/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAssert.h \
+  /Users/goodsogood/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTDefines.h \
+  /Users/goodsogood/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTUtils.h \
+  /Users/goodsogood/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTRootView.h \
+  /Users/goodsogood/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridge.h \
+  /Users/goodsogood/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeDelegate.h \
+  /Users/goodsogood/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTJavaScriptLoader.h \
+  /Users/goodsogood/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeModule.h \
+  /Users/goodsogood/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTFrameUpdate.h \
+  /Users/goodsogood/libs/rn-cnodejs/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTInvalidating.h

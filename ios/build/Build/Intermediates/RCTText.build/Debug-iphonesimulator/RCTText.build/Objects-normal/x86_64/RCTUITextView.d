@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/lijianbo/libs/rn-cnodejs/node_modules/react-native/Libraries/Text/RCTUITextView.m \
-  /Users/lijianbo/libs/rn-cnodejs/node_modules/react-native/Libraries/Text/RCTUITextView.h
+  /Users/goodsogood/libs/rn-cnodejs/node_modules/react-native/Libraries/Text/RCTUITextView.m \
+  /Users/goodsogood/libs/rn-cnodejs/node_modules/react-native/Libraries/Text/RCTUITextView.h

@@ -5,12 +5,16 @@ import NavigatorReducer from '../navigator/NavigatorState';
 import HomeReducer from '../view/home/state';
 import InfoReducer from '../view/info/state';
 import DetailReducer from '../view/home/detail/state';
+import LoginReducer from '../view/info/login/state';
+import MyInfoReducer from '../view/info/myInfo/state';
 
 const reducers = {
   navigatorState: NavigatorReducer,
   homeState: HomeReducer,
   infoState: InfoReducer,
   detailState: DetailReducer,
+  loginState: LoginReducer,
+  myInfoState: MyInfoReducer,
 };
 
 const immutableStateContainer = Map();
