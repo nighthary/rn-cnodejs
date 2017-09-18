@@ -3,9 +3,12 @@ import { TabNavigator, StackNavigator } from 'react-navigation'
 
 import React from 'react'
 
-import HomeIndex from '../view/home/'
-import InfoIndex from '../view/info/'
-import Detail from '../view/home/detail/'
+import HomeIndex from '../view/home/';
+import InfoIndex from '../view/info/';
+import Detail from '../view/home/detail/';
+import Movie from '../view/home/movie/';
+import Login from '../view/info/login/';
+import MyInfo from '../view/info/myInfo/';
 
 const Tabs = TabNavigator({
   home: {
@@ -33,7 +36,10 @@ const Tabs = TabNavigator({
 
 const Navigator = StackNavigator({
   tabs: {screen: Tabs},
-  detail: {screen: Detail}
+  detail: {screen: Detail},
+  login: {screen: Login},
+  myInfo: {screen: MyInfo},
+  movie: {screen: Movie},
 }, {
   initialRouteName: 'tabs',
   cardStyle: {

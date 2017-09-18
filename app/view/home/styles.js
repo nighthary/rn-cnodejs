@@ -21,8 +21,8 @@ export const styles = StyleSheet.create({
     backgroundColor:'#FFF'
   },
   headerLeft: {
-    height: 44,
-    width: 80,
+    height: 25,
+    width: 100,
     marginLeft: 15
   },
 
@@ -35,13 +35,18 @@ export const styles = StyleSheet.create({
     width,
     height: 150
   },
+  pubilsh: {
+    position: 'absolute',
+    bottom: -60,
+    right: 20,
+    width: 40,
+  }
 })
 
 export const tabStyles = StyleSheet.create({
   tabView: {
     flexDirection: 'row',
     backgroundColor: '#FFF',
-    justifyContent: 'flex-start',
     justifyContent: 'space-around',
     borderBottomWidth: 0.5,
     borderColor: '#F5F5F5'
@@ -51,7 +56,7 @@ export const tabStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  itemAvtive:{
+  itemActive:{
     borderBottomWidth: 1.5,
     borderColor: '#4181DE',
   },

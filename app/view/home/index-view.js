@@ -6,7 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
-  ScrollView
+  ProgressBar,
 } from 'react-native'
 
 import { getHomeList } from '../../service/apis';
@@ -58,7 +58,6 @@ class HomeIndex extends Component {
       isDataEnd: false,
       refreshing: true,
       failed: false,
-      activeTab: 'all'
     }
   }
 
@@ -66,12 +65,13 @@ class HomeIndex extends Component {
     this.getList()
   }
 
-  getList (tab) {
-    let {page, limit, activeTab} = this.state;
+  getList () {
+    let {page, limit} = this.state;
+    let {activeTab} = this.props;
     let _isDataEnd = false;
     if(!this.state.isLoading){
       this.setState({isLoading: true})
-      getHomeList(page, limit, tab || activeTab).then((result) => {
+      getHomeList(page, limit, activeTab).then((result) => {
         if (result.success) {
           let _data = result.data;
           this.convertData(_data);
@@ -109,19 +109,16 @@ class HomeIndex extends Component {
     }
   }
 
-  navigate (routeName, params) {
-    if (!global.transitioning) {
-      this.props.navigation.navigate(routeName, params)
-    }
-  }
-
-  switchTab (tab) {
-    this.setState({activeTab: tab, lists: []})
-    this.getList(tab)
+  async switchTab (tab) {
+    const {changeTab} = this.props;
+    this.setState({ lists: []});
+    await changeTab(tab);
+    this.getList();
   }
 
   render () {
-    const {activeTab} = this.state;
+    const {activeTab} = this.props;
+    const {navigate} = this.props.navigation;
     if(!this.state.lists){
       return this._renderLoadingView()
     }else{
@@ -131,7 +128,7 @@ class HomeIndex extends Component {
           {
             tabs.map((item, index) => (
               <TouchableOpacity key={index} onPress={() => {this.switchTab(item.key)}}>
-                <View style={[tabStyles.item, activeTab === item.key ? tabStyles.itemAvtive : null]} key={index}>
+                <View style={[tabStyles.item, activeTab === item.key ? tabStyles.itemActive : null]} key={index}>
                   <Text style={[tabStyles.txt, activeTab === item.key ? tabStyles.txtActive : null]}>{item.value}</Text>
                 </View>
               </TouchableOpacity>
@@ -148,6 +145,9 @@ class HomeIndex extends Component {
             onEndReachedThreshold={0.1}
             getItemLayout={(data, index) => ({length: 270.5, offset: 270.5 * index, index})}
           />
+          <TouchableOpacity onPress={() => { navigate('detail') }}>
+            <Image style={styles.pubilsh} source={require('../../assets/imgs/add.png')} resizeMode='contain' />
+          </TouchableOpacity>
         </View>
       )
     }
@@ -156,6 +156,7 @@ class HomeIndex extends Component {
   _renderListItem = ({item}) => {
     return (
       <TouchableOpacity
+        onPress={() => (this.props.navigation.navigate('movie'))}
         activeOpacity={0.6}>
         <View style={listStyles.item}>
           <View style={listStyles.header}>
