@@ -35,7 +35,7 @@ class HomeIndex extends Component {
       ),
       headerRight: (
         <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.headerTouch} onPress={() => { navigation.navigate('detail') }}>
+          <TouchableOpacity style={styles.headerTouch} onPress={() => { navigation.navigate('img') }}>
             <Image style={styles.headerBtn} source={require('../../assets/imgs/icon-search.png')} resizeMode='contain' />
           </TouchableOpacity>
         </View>

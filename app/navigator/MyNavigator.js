@@ -7,6 +7,7 @@ import HomeIndex from '../view/home/';
 import InfoIndex from '../view/info/';
 import Detail from '../view/home/detail/';
 import Movie from '../view/home/movie/';
+import ImageShow from '../view/home/ImageShow';
 import Login from '../view/info/login/';
 import MyInfo from '../view/info/myInfo/';
 
@@ -40,6 +41,7 @@ const Navigator = StackNavigator({
   login: {screen: Login},
   myInfo: {screen: MyInfo},
   movie: {screen: Movie},
+  img: {screen: ImageShow},
 }, {
   initialRouteName: 'tabs',
   cardStyle: {

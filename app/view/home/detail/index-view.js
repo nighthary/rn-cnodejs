@@ -1,102 +1,44 @@
-import React, { Component } from 'react'
-
+import React, { Component } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  ActivityIndicator,
-  ScrollView
-} from 'react-native'
+  AppRegistry, // 注册组件,是应用的JS运行入口
+  StyleSheet,  // 样式表, 类似于一个集合包含各个组件的属性
+  ScrollView,
+  Dimensions,  // 规格
+  TouchableWithoutFeedback,
+  Image,       // 图片组件
+  View         // 视图组件
+} from 'react-native';
 
-const {width, height} = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
-class HomeIndex extends Component {
+// 声明一个 Helloworld 组件
+class DetailIndex extends Component {
 
-  static navigationOptions = ({navigation}) => {
-    return {
-      headerTitle: '详情',
-      mode: 'card',
-      headerMode: 'float',
-      headerStyle: {
-        backgroundColor:'#000',
-        paddingRight:10,
-      },
-      headerTitleStyle: {
-        color: '#FFF'
-      }
-    }
-  }
+  render() { // 渲染
 
-  constructor (props) {
-    super(props)
-
-    this.state = {
-
-    }
-  }
-
-  componentWillMount () {
-  }
-
-  render () {
     return (
-      <ScrollView style={styles.container}>
-        <Text>我是详情</Text>
+
+      <ScrollView contentContainerStyle={{flex: 1}} // 默认充满整个空间(屏幕)
+                  maximumZoomScale={2}    // 子组件(图片)放大倍数
+                  minimumZoomScale={1.0}  // 子组件(图片)缩小倍数
+                  showsHorizontalScrollIndicator={true}
+                  showsVerticalScrollIndicator={true}
+                  centerContent={true} // 子组件(图片)一直处于父组件中心位置,不会因缩放向其他方向偏离
+                  ref="testScroll"
+      >
+        <TouchableWithoutFeedback onPressOut={this.sigleTap()}>
+          <Image source={{ uri: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1849483001,1752516309&fm=27&gp=0.jpg'}}
+                 resizeMode={'contain'}
+                 style={{flex: 1, width, height}} // 如果Image不设置width、height那么他就会按照自身的大小就行展示,导致超出屏幕边界
+          />
+        </TouchableWithoutFeedback>
       </ScrollView>
-    )
+    );
   }
 
-  _renderLoadingView = () => (
-    <View style={baseStyle.center}>
-      <ActivityIndicator
-        animating={true}
-        color='#666'
-        size='large'
-      />
-    </View>
-  )
+  sigleTap() { // 手势这个暂未搞明白
+  }
+
 }
 
-const baseStyle = StyleSheet.create({
-  center: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 200
-  }
-})
-
-
-const styles = StyleSheet.create({
-  icon: {
-    width: 25,
-  },
-  container: {
-    flex: 1,
-  },
-  header: {
-    width,
-    height: 150
-  },
-  headerImg: {
-    width,
-    height: 150
-  },
-  item: {
-    backgroundColor: '#FFF',
-    marginHorizontal: 2.5,
-    marginVertical: 2.5,
-    paddingVertical: 5,
-    alignItems: 'center',
-  },
-  img: {
-    width: (width / 2),
-    height: 80
-  },
-  title: {
-    marginTop: 10
-  }
-})
-
-export default HomeIndex
+export default DetailIndex
