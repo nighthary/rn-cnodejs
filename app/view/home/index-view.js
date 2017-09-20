@@ -53,6 +53,7 @@ class HomeIndex extends Component {
     this.state = {
       lists: [],
       isLoading: false,
+      isShowLoading: false,
       limit: 10,
       page: 1,
       isDataEnd: false,
@@ -76,7 +77,7 @@ class HomeIndex extends Component {
           let _data = result.data;
           this.convertData(_data);
           const newData = this.state.lists.concat(_data);
-          this.setState({isLoading: false, lists: newData, refreshing: false, isDataEnd: _isDataEnd})
+          this.setState({isLoading: false, lists: newData, refreshing: false, isDataEnd: _isDataEnd, isShowLoading: false})
         }
       }).catch(err => {
         this.setState({failed: true})
@@ -110,6 +111,7 @@ class HomeIndex extends Component {
   }
 
   async switchTab (tab) {
+    this.setState({isShowLoading: true});
     const {changeTab} = this.props;
     this.setState({ lists: []});
     await changeTab(tab);
@@ -119,41 +121,45 @@ class HomeIndex extends Component {
   render () {
     const {activeTab} = this.props;
     const {navigate} = this.props.navigation;
-    if(!this.state.lists){
-      return this._renderLoadingView()
-    }else{
-      return (
-        <View style={styles.container}>
-          <View style={tabStyles.tabView}>
-          {
-            tabs.map((item, index) => (
-              <TouchableOpacity key={index} onPress={() => {this.switchTab(item.key)}}>
-                <View style={[tabStyles.item, activeTab === item.key ? tabStyles.itemActive : null]} key={index}>
-                  <Text style={[tabStyles.txt, activeTab === item.key ? tabStyles.txtActive : null]}>{item.value}</Text>
-                </View>
-              </TouchableOpacity>
-            ))
-          }
-          </View>
-          <FlatList
-            refreshing={this.state.refreshing}
-            data={this.state.lists}
-            keyExtractor={(item, index) => index}
-            renderItem={this._renderListItem}
-            onRefresh={this.refresh.bind(this)}
-            onEndReached={this.loadMore.bind(this)}
-            onEndReachedThreshold={0.1}
-            getItemLayout={(data, index) => ({length: 270.5, offset: 270.5 * index, index})}
-          />
-          <TouchableOpacity onPress={() => { navigate('detail') }}>
-            <Image style={styles.pubilsh} source={require('../../assets/imgs/add.png')} resizeMode='contain' />
-          </TouchableOpacity>
+    let {isShowLoading} = this.state;
+    return (
+      <View style={styles.container}>
+        <View style={tabStyles.tabView}>
+        {
+          tabs.map((item, index) => (
+            <TouchableOpacity key={index} onPress={() => {this.switchTab(item.key)}}>
+              <View style={[tabStyles.item, activeTab === item.key ? tabStyles.itemActive : null]} key={index}>
+                <Text style={[tabStyles.txt, activeTab === item.key ? tabStyles.txtActive : null]}>{item.value}</Text>
+              </View>
+            </TouchableOpacity>
+          ))
+        }
         </View>
-      )
-    }
+        <FlatList
+          refreshing={this.state.refreshing}
+          data={this.state.lists}
+          keyExtractor={(item, index) => index}
+          renderItem={this._renderListItem}
+          onRefresh={this.refresh.bind(this)}
+          onEndReached={this.loadMore.bind(this)}
+          onEndReachedThreshold={0.1}
+          getItemLayout={(data, index) => ({length: 270.5, offset: 270.5 * index, index})}
+        />
+        <TouchableOpacity onPress={() => { navigate('detail') }}>
+          <Image style={styles.pubilsh} source={require('../../assets/imgs/add.png')} resizeMode='contain' />
+        </TouchableOpacity>
+        <View style={styles.loading}>
+          <ActivityIndicator
+            animating={isShowLoading}
+            size="large"
+          />
+        </View>
+      </View>
+    )
   }
 
   _renderListItem = ({item}) => {
+
     return (
       <TouchableOpacity
         onPress={() => (this.props.navigation.navigate('movie'))}
@@ -188,16 +194,6 @@ class HomeIndex extends Component {
       </TouchableOpacity>
     )
   }
-
-  _renderLoadingView = () => (
-    <View style={baseStyle.center}>
-      <ActivityIndicator
-        animating={true}
-        color='#666'
-        size='large'
-      />
-    </View>
-  )
 }
 
 

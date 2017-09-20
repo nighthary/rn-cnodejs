@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   AsyncStorage,
+  ActivityIndicator,
 } from 'react-native'
 
 import {login} from '../../../service/apis';
@@ -32,7 +33,7 @@ class HomeIndex extends Component {
   constructor (props) {
     super(props)
 
-    this.state = { text: '' }
+    this.state = { text: '', isShowLoading: false }
   }
 
   componentWillMount () {
@@ -40,14 +41,19 @@ class HomeIndex extends Component {
 
   _onLogin = (accesstoken) => {
     if (!accesstoken) return
+    this.setState({ isShowLoading })
     login({accesstoken}).then((result) => {
       if(Number(result.code) === 0){
+        consoloe.log(result)
+        consoloe.log(JSON.stringify(result))
         AsyncStorage.setItem('accesstoken', accesstoken)
+        this.props.navigation.goBack()
       }
     })
   }
 
   render () {
+    let {isShowLoading} = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.logoView}>
@@ -61,9 +67,15 @@ class HomeIndex extends Component {
                      onChangeText={(text) => { this.setState({ text }) }}
           />
         </View>
+
         <TouchableOpacity style={styles.loginBtn} onPress={() => { this._onLogin(this.state.text) }}>
           <Text style={styles.login}>登录</Text>
         </TouchableOpacity>
+        <ActivityIndicator
+          animating={isShowLoading}
+          size="large"
+          color="#4876FF"
+        />
       </View>
     )
   }
@@ -78,7 +90,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0, bottom: 0, left: 0, right: 0
   },
-
   bgImage: {
     flex: 1,
     resizeMode: "stretch"

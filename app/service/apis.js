@@ -24,6 +24,6 @@ export function getDetail(id){
 }
 
 export function login(accesstoken){
-  const path = `${rootPath}/accesstoken${buildParams(accesstoken)}`;
-  return get(path)
+  const path = `${rootPath}/accesstoken`;
+  return post(path, buildParams({accesstoken}))
 }

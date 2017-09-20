@@ -40,6 +40,15 @@ export const styles = StyleSheet.create({
     bottom: -60,
     right: 20,
     width: 40,
+  },
+  loading: {
+    position: 'absolute',
+    top: 80,
+    flex: 1,
+    width,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
 
